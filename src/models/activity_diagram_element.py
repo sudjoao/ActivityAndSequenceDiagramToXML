@@ -9,10 +9,10 @@ class ActivityDiagramElement():
     def __init__(self):
         self.name = ""
         self.transitions = []
-        self.node_type = ""
+        self.element_type = ""
     
-    def __init__(self, name, transitions, node_type):
+    def __init__(self, name, transitions, element_type):
         self.name = name
         self.transitions = transitions
-        self.node_type = node_type
+        self.element_type = element_type
 
