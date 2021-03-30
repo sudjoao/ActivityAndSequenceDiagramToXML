@@ -2,7 +2,7 @@ from src.models.activity_diagram_element import ActivityDiagramElement, START_NO
 
 class ActivityDiagram():
     def __init__(self, elements=[], start_node= None, name=''):
-        self.elements = elements
+        self.elements = elements.copy()
         self.start_node = start_node
         self.name = name
 
@@ -26,19 +26,13 @@ class ActivityDiagram():
         self.name = name
 
     def get_name(self):
-        return 'Diagrama 1'
+        return self.name
 
     def get_elements(self):
-        element = []
-        element.append(ActivityDiagramElement())
-        return element
+        return self.elements
 
     def get_start_node(self):
-        element = ActivityDiagramElement()
-        element.set_name('Elemento 1')
-        element.element_type = START_NODE
-        return element
-
+        return self.start_node
 
     def to_xml():
         return ''

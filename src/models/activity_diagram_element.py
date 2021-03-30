@@ -8,7 +8,7 @@ END_NODE = 'EndNode'
 class ActivityDiagramElement():
     def __init__(self, name='', transitions=[], element_type=''):
         self.name = name
-        self.transitions = transitions
+        self.transitions = transitions.copy()
         self.element_type = element_type
 
     def __eq__(self, activity_diagram_element):
@@ -31,13 +31,10 @@ class ActivityDiagramElement():
         self.element_type = element_type
 
     def get_name(self):
-        return 'Caio'
+        return self.name
 
     def get_transitions(self):
-        return [{
-            'name': 'transição 1',
-            'prob': 1.0
-        }]
+        return self.transitions
 
     def get_element_type(self):
-        return START_NODE
+        return self.element_type

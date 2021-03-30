@@ -18,7 +18,6 @@ class TestActivityDiagram(unittest.TestCase):
         self.activity_diagram_element.set_transitions(transition_dict)
         self.assertListEqual(self.activity_diagram_element.get_transitions(), [transition_dict])
 
-
     def test_set_element_type(self):
         self.activity_diagram_element.set_element_type(activity_diagram_element_model.START_NODE)
         self.assertEqual(self.activity_diagram_element.get_element_type(), activity_diagram_element_model.START_NODE)
@@ -33,7 +32,7 @@ class TestActivityDiagram(unittest.TestCase):
             'prob': 1.0
         }
         self.activity_diagram_element2.set_transitions(transition_dict)
-        self.assertListEqual(self.activity_diagram_element2.get_transitions(), [transition_dict])
+        self.assertEqual(self.activity_diagram_element2.get_transitions(), [transition_dict])
 
 
     def test_set_element_type2(self):
