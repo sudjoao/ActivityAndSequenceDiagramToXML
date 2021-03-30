@@ -1,43 +1,41 @@
 import unittest
-import src.models.activity_diagram_element as activity_diagram_element_model
-class TestActivityDiagram(unittest.TestCase):
+
+from models.activity_diagram_element import ActivityDiagramElement, START_NODE, DECISION_NODE, MERGE_NODE
+from parameterized import parameterized
+
+
+class TestActivityDiagramElement(unittest.TestCase):
 
     def setUp(self):
-        self.activity_diagram_element = activity_diagram_element_model.ActivityDiagramElement()
-        self.activity_diagram_element2 = activity_diagram_element_model.ActivityDiagramElement()
+        self.activity_diagram_element = ActivityDiagramElement()
+        self.activity_diagram_element2 = ActivityDiagramElement()
 
-    def test_set_name(self):
-        self.activity_diagram_element.set_name('Caio')
-        self.assertEqual(self.activity_diagram_element.get_name(), 'Caio')
+    @parameterized.expand([
+        ['Elemento 1'],
+        ['Elemento 2'],
+        ['Elemento 3'],
+    ])
+    def test_set_name(self, name):
+        self.activity_diagram_element.set_name(name)
+        self.assertEqual(self.activity_diagram_element.get_name(), name)
     
-    def test_set_transitions(self):
-        transition_dict = {
-            'name': 'transição 1',
-            'prob': 1.0
-        }
+    @parameterized.expand([
+        [{'name':'Transição 1', 'prob':1.0}],
+        [{'name':'Transição 2', 'prob':0.5}],
+        [{'name':'Transição 3', 'prob':0.0}],
+    ])
+    def test_set_transitions(self, transition_dict):
         self.activity_diagram_element.set_transitions(transition_dict)
         self.assertListEqual(self.activity_diagram_element.get_transitions(), [transition_dict])
 
-    def test_set_element_type(self):
-        self.activity_diagram_element.set_element_type(activity_diagram_element_model.START_NODE)
-        self.assertEqual(self.activity_diagram_element.get_element_type(), activity_diagram_element_model.START_NODE)
-    
-    def test_set_name2(self):
-        self.activity_diagram_element2.set_name('Iuri')
-        self.assertEqual(self.activity_diagram_element2.get_name(), 'Iuri')
-    
-    def test_set_transitions2(self):
-        transition_dict = {
-            'name': 'transição 2',
-            'prob': 1.0
-        }
-        self.activity_diagram_element2.set_transitions(transition_dict)
-        self.assertEqual(self.activity_diagram_element2.get_transitions(), [transition_dict])
-
-
-    def test_set_element_type2(self):
-        self.activity_diagram_element2.set_element_type(activity_diagram_element_model.DECISION_NODE)
-        self.assertEqual(self.activity_diagram_element2.get_element_type(), activity_diagram_element_model.DECISION_NODE)
+    @parameterized.expand([
+        [START_NODE],
+        [DECISION_NODE],
+        [MERGE_NODE],
+    ])
+    def test_set_element_type(self, element_type):
+        self.activity_diagram_element.set_element_type(element_type)
+        self.assertEqual(self.activity_diagram_element.get_element_type(), element_type)
     
     def tearDown(self):
         self.activity_diagram_element.dispose()

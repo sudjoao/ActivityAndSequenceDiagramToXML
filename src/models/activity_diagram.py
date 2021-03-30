@@ -1,4 +1,4 @@
-from src.models.activity_diagram_element import ActivityDiagramElement, START_NODE
+from models.activity_diagram_element import ActivityDiagramElement, START_NODE
 
 class ActivityDiagram():
     def __init__(self, elements=[], start_node= None, name=''):
@@ -10,6 +10,11 @@ class ActivityDiagram():
         return self.name == activity_diagram.name and \
         self.start_node == activity_diagram.start_node and \
         self.elements == activity_diagram.elements
+    
+    def __str__(self):
+        return 'Name: {}\nStart Node: {}\nElements: {}\n'.format(self.name, \
+                                                                self.start_node, \
+                                                                self.elements)
 
     def dispose(self):
         self.elements = []

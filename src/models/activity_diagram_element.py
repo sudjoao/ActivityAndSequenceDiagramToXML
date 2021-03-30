@@ -16,6 +16,11 @@ class ActivityDiagramElement():
         self.element_type == activity_diagram_element.element_type and \
         self.transitions == activity_diagram_element.transitions
 
+    def __str__(self):
+        return 'Name: {}\nElement Type: {}\nTransitions: {}\n'.format(self.name, \
+                                                                self.element_type, \
+                                                                self.transitions)
+
     def dispose(self):
         self.name = ''
         self.transitions = []
