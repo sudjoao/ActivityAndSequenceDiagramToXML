@@ -1,12 +1,10 @@
-LIFELINE='LifeLine'
-MESSAGE='Message'
-FRAGMENT='Fragment'
-class SequenceDiagramElement():
-    def __init__(self):
-        self.name = ''
-        self.element_type = ''
+LIFELINE = 'LifeLine'
+MESSAGE = 'Message'
+FRAGMENT = 'Fragment'
 
-    def __init__(self, name, element_type):
+class SequenceDiagramElement():
+    def __init__(self, name='', guard_condition=''):
         self.name = name
-        self.element_type = element_type
+        self.guard_condition = guard_condition
+
     
