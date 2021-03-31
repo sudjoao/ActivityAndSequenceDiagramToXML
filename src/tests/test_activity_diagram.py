@@ -9,7 +9,6 @@ class TestActivityDiagram(unittest.TestCase):
 
     def setUp(self):
         self.activity_diagram = ActivityDiagram()
-        self.activity_diagram2 = ActivityDiagram()
     
     @parameterized.expand([
         ['Diagrama 1'],
@@ -30,9 +29,9 @@ class TestActivityDiagram(unittest.TestCase):
         self.assertListEqual(self.activity_diagram.get_elements(), [element])
 
     @parameterized.expand([
-        [ActivityDiagramElement('Elemento 1', [], START_NODE)],
-        [ActivityDiagramElement('Elemento 2', [], START_NODE)],
-        [ActivityDiagramElement('Elemento 3', [], START_NODE)],
+        [ActivityDiagramElement('Elemento 1', START_NODE)],
+        [ActivityDiagramElement('Elemento 2', START_NODE)],
+        [ActivityDiagramElement('Elemento 3', START_NODE)],
     ])
     def test_set_start_node(self, element):
         self.activity_diagram.set_start_node(element)
@@ -40,4 +39,3 @@ class TestActivityDiagram(unittest.TestCase):
 
     def tearDown(self):
         self.activity_diagram.dispose()
-        self.activity_diagram2.dispose()

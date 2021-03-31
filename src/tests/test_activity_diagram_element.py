@@ -8,7 +8,6 @@ class TestActivityDiagramElement(unittest.TestCase):
 
     def setUp(self):
         self.activity_diagram_element = ActivityDiagramElement()
-        self.activity_diagram_element2 = ActivityDiagramElement()
 
     @parameterized.expand([
         ['Elemento 1'],
@@ -39,4 +38,3 @@ class TestActivityDiagramElement(unittest.TestCase):
     
     def tearDown(self):
         self.activity_diagram_element.dispose()
-        self.activity_diagram_element2.dispose()

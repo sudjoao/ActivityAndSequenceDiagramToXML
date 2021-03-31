@@ -1,17 +1,17 @@
 from models.activity_diagram_element import ActivityDiagramElement, START_NODE
 
 class ActivityDiagram():
-    def __init__(self, elements=[], start_node= None, name=''):
-        self.elements = elements.copy()
+    def __init__(self, start_node= None, name=''):
+        self.elements = []
         self.start_node = start_node
         self.name = name
 
-    def __eq__(self, activity_diagram):
+    def __eq__(self, activity_diagram): # pragma: no cover
         return self.name == activity_diagram.name and \
         self.start_node == activity_diagram.start_node and \
         self.elements == activity_diagram.elements
     
-    def __str__(self):
+    def __str__(self): # pragma: no cover
         return 'Name: {}\nStart Node: {}\nElements: {}\n'.format(self.name, \
                                                                 self.start_node, \
                                                                 self.elements)
