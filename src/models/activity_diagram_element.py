@@ -1,7 +1,3 @@
-import os
-
-START_NODE = os.getenv('START_NODE')
-
 class ActivityDiagramElement():
     def __init__(self, name='', element_type=''):
         self.name = name

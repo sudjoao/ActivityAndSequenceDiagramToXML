@@ -1,12 +1,9 @@
 import unittest
-import os
-
-START_NODE = os.getenv('START_NODE')
-DECISION_NODE = os.getenv('DECISION_NODE')
-MERGE_NODE = os.getenv('MERGE_NODE')
-
+from utils.utils import Util
 from models.activity_diagram_element import ActivityDiagramElement
 from parameterized import parameterized
+
+util = Util()
 
 
 class TestActivityDiagramElement(unittest.TestCase):
@@ -33,9 +30,9 @@ class TestActivityDiagramElement(unittest.TestCase):
         self.assertListEqual(self.activity_diagram_element.get_transitions(), [transition_dict])
 
     @parameterized.expand([
-        [START_NODE],
-        [DECISION_NODE],
-        [MERGE_NODE],
+        [util.START_NODE],
+        [util.DECISION_NODE],
+        [util.MERGE_NODE],
     ])
     def test_set_element_type(self, element_type):
         self.activity_diagram_element.set_element_type(element_type)

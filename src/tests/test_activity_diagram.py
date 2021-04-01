@@ -1,11 +1,12 @@
 import unittest
-import os
 
 from models.activity_diagram import ActivityDiagram
 from models.activity_diagram_element import ActivityDiagramElement
 from parameterized import parameterized
+from utils.utils import Util
 
-START_NODE = os.getenv('START_NODE')
+util = Util()
+
 
 class TestActivityDiagram(unittest.TestCase):
 
@@ -31,9 +32,9 @@ class TestActivityDiagram(unittest.TestCase):
         self.assertListEqual(self.activity_diagram.get_elements(), [element])
 
     @parameterized.expand([
-        [ActivityDiagramElement('Elemento 1', START_NODE)],
-        [ActivityDiagramElement('Elemento 2', START_NODE)],
-        [ActivityDiagramElement('Elemento 3', START_NODE)],
+        [ActivityDiagramElement('Elemento 1', util.START_NODE)],
+        [ActivityDiagramElement('Elemento 2', util.START_NODE)],
+        [ActivityDiagramElement('Elemento 3', util.START_NODE)],
     ])
     def test_set_start_node(self, element):
         self.activity_diagram.set_start_node(element)

@@ -1,23 +1,12 @@
-import os
-
-from dotenv import load_dotenv
 from models.activity_diagram import ActivityDiagram
 from models.activity_diagram_element import ActivityDiagramElement
+from utils.utils import Util
+from time import sleep
 
-load_dotenv()
-
-START_NODE=os.getenv('START_NODE')
-ACTIVITY=os.getenv('ACTIVITY')
-TRANSITION=os.getenv('TRANSITION')
-DECISION_NODE=os.getenv('DECISION_NODE')
-MERGE_NODE=os.getenv('MERGE_NODE')
-END_NODE=os.getenv('END_NODE')
-LIFELINE=os.getenv('LIFELINE')
-MESSAGE=os.getenv('MESSAGE')
-FRAGMENT=os.getenv('FRAGMENT')
+util = Util()
 
 def main():
-    print(START_NODE)
+    print(util.START_NODE)
     main_menu()
 
 def main_menu():
@@ -50,29 +39,82 @@ def activity_diagram_menu(name):
     while(True):
         print('----- Activity Diagram Menu -----')
         print('Select the element you want to generate:\n'
-            f'1 - {START_NODE}\n'
-            f'2 - {ACTIVITY}\n'
-            f'3 - {TRANSITION}\n'
-            f'4 - {DECISION_NODE}\n'
-            f'5 - {MERGE_NODE}\n'
-            f'6 - {END_NODE}\n'
+            f'1 - {util.START_NODE}\n'
+            f'2 - {util.ACTIVITY_NODE}\n'
+            f'3 - {util.TRANSITION_NODE}\n'
+            f'4 - {util.DECISION_NODE}\n'
+            f'5 - {util.MERGE_NODE}\n'
+            f'6 - {util.END_NODE}\n'
             '7 - Return to Main Menu')
         user_in = input('Insert your option: ')
         
         if(user_in == '1'):
-            start_node_name = input('Insert the Start Node name: ')
-            start_node = ActivityDiagramElement(name=start_node_name, element_type=START_NODE)
-            activity_diagram.set_elements(start_node)
+            if(util.check_start_node_existence(activity_diagram.get_elements())):
+                clear()
+                print('Start node already exists!')
+                # TODO Criar exceção
+                sleep(2)
+            else:
+                start_node_name = input('Insert the Start Node name: ')
+                start_node = ActivityDiagramElement(name=start_node_name, element_type=util.START_NODE)
+                activity_diagram.set_elements(start_node)
         elif(user_in == '2'):
-            break
+            if(util.check_start_node_existence(activity_diagram.get_elements())):
+                activity_node_name = input('Insert the Activity Node name: ')
+                activity_node = ActivityDiagramElement(name=activity_node_name, element_type=util.ACTIVITY)
+                activity_diagram.set_elements(activity_node)
+            else:
+                clear()
+                print('You need to create a start node before add others nodes')
+                # TODO Criar exceção
+                sleep(2)
+        
         elif(user_in == '3'):
-            break
+            if(util.check_start_node_existence(activity_diagram.get_elements())):
+                transition_node_name = input('Insert the Transition Node name_ACTIVITY_NODE: ')
+                transition_node = ActivityDiagramElement(name=transition_node_name, element_type=util.TRANSITION_NODE)
+                activity_diagram.set_elements(transition_node)
+            else:
+                clear()
+                print('You need to create a start node before add others nodes')
+                # TODO Criar exceção
+                sleep(2)
+        
         elif(user_in == '4'):
-            break
+            if(util.check_start_node_existence(activity_diagram.get_elements())):
+                decision_node_name = input('Insert the Decision Node name: ')
+                decision_node = ActivityDiagramElement(name=decision_node_name, element_type=util.DECISION_NODE)
+                activity_diagram.set_elements(decision_node)
+                # TODO Lógica de separação dos 2 caminhos de decisão
+            else:
+                clear()
+                print('You need to create a start node before add others nodes')
+                # TODO Criar exceção
         elif(user_in == '5'):
-            break
+        
+            if(
+                util.check_start_node_existence(activity_diagram.get_elements()) and \
+                util.check_join_possibility(activity_diagram.get_elements())
+            ):
+                merge_node_name = input('Insert the Merge Node name: ')
+                merge_node = ActivityDiagramElement(name=merge_node_name, element_type=util.MERGE_NODE)
+                activity_diagram.set_elements(merge_node)
+            else:
+                clear()
+                print('something wrong happens')
+                sleep(2)
+            
         elif(user_in == '6'):
-            break
+            if(util.check_start_node_existence(activity_diagram.get_elements())):
+                end_node_name = input('Insert the Transition Node name: ')
+                end_node = ActivityDiagramElement(name=end_node_name, element_type=util.END_NODE)
+                activity_diagram.set_elements(end_node)
+            else:
+                clear()
+                print('You need to create a start node before add others nodes')
+                # TODO Criar exceção
+                sleep(2)
+            
         elif(user_in == '7'):
             return
         else:
@@ -84,9 +126,9 @@ def sequence_diagram_menu():
     while(True):
         print('----- Sequence Diagram Menu -----')
         print('Select the element you want to generate:\n'
-            f'1 - {LIFELINE}\n'
-            f'2 - {FRAGMENT}\n'
-            f'3 - {MESSAGE}\n'
+            f'1 - {util.LIFELINE}\n'
+            f'2 - {util.FRAGMENT}\n'
+            f'3 - {util.MESSAGE}\n'
             '4 - Return to Main Menu')
         user_in = input('Insert your option: ')
         
