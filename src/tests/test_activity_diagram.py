@@ -1,9 +1,11 @@
 import unittest
-from models.activity_diagram import ActivityDiagram
+import os
 
-from models.activity_diagram_element import ActivityDiagramElement, START_NODE
+from models.activity_diagram import ActivityDiagram
+from models.activity_diagram_element import ActivityDiagramElement
 from parameterized import parameterized
 
+START_NODE = os.getenv('START_NODE')
 
 class TestActivityDiagram(unittest.TestCase):
 

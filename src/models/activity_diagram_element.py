@@ -1,9 +1,6 @@
-START_NODE = 'StartNode'
-ACTIVITY = 'Activity'
-TRANSITION = 'Transition'
-DECISION_NODE = 'DecisionNode'
-MERGE_NODE = 'MergeNode'
-END_NODE = 'EndNode'
+import os
+
+START_NODE = os.getenv('START_NODE')
 
 class ActivityDiagramElement():
     def __init__(self, name='', element_type=''):

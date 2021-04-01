@@ -1,4 +1,4 @@
-from models.activity_diagram_element import ActivityDiagramElement, START_NODE
+from models.activity_diagram_element import ActivityDiagramElement
 
 class ActivityDiagram():
     def __init__(self, start_node= None, name=''):

@@ -1,6 +1,11 @@
 import unittest
+import os
 
-from models.activity_diagram_element import ActivityDiagramElement, START_NODE, DECISION_NODE, MERGE_NODE
+START_NODE = os.getenv('START_NODE')
+DECISION_NODE = os.getenv('DECISION_NODE')
+MERGE_NODE = os.getenv('MERGE_NODE')
+
+from models.activity_diagram_element import ActivityDiagramElement
 from parameterized import parameterized
 
 

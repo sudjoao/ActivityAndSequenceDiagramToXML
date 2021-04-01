@@ -1,7 +1,3 @@
-LIFELINE = 'LifeLine'
-MESSAGE = 'Message'
-FRAGMENT = 'Fragment'
-
 class SequenceDiagramElement():
     def __init__(self, name=''):
         self.name = name
