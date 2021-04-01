@@ -22,7 +22,7 @@ class Util():
         for element in nodes:
             if(element.element_type == self.DECISION_NODE):
                 decision_count+=1
-            elif(element.element_type == self.DECISION_NODE):
+            elif(element.element_type == self.MERGE_NODE):
                 merge_count+=1
         if(not decision_count or merge_count >= decision_count):
             return False
