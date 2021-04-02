@@ -29,7 +29,18 @@ class TestActivityDiagram(unittest.TestCase):
     ])
     def test_set_elements(self, element):
         self.activity_diagram.set_elements(element)
-        self.assertListEqual(self.activity_diagram.get_elements(), [element])
+        element_dict = {element.name: element}
+        self.assertDictEqual(self.activity_diagram.get_elements(), element_dict)
+
+    @parameterized.expand([
+        [ActivityDiagramElement('Transition 1')],
+        [ActivityDiagramElement('Transition 2')],
+        [ActivityDiagramElement('Transition 3')],
+    ])
+    def test_set_transitions(self, transition):
+        self.activity_diagram.set_transitions(transition)
+        transition_dict = {transition.name: transition}
+        self.assertDictEqual(self.activity_diagram.get_transitions(), transition_dict)
 
     @parameterized.expand([
         [ActivityDiagramElement('Elemento 1', util.START_NODE)],

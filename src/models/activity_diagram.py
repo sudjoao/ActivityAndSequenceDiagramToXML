@@ -2,7 +2,8 @@ from models.activity_diagram_element import ActivityDiagramElement
 
 class ActivityDiagram():
     def __init__(self, start_node= None, name=''):
-        self.elements = []
+        self.elements = {}
+        self.transitions = {}
         self.start_node = start_node
         self.name = name
 
@@ -12,17 +13,26 @@ class ActivityDiagram():
         self.elements == activity_diagram.elements
     
     def __str__(self): # pragma: no cover
-        return 'Name: {}\nStart Node: {}\nElements: {}\n'.format(self.name, \
-                                                                self.start_node, \
-                                                                self.elements)
+        str_message = r'{' + f'\n\tName: {self.name},\n\tStart Node: {self.start_node},\n\tElements: [\n'
+        for element in self.elements.values():
+            str_message += '\t\t' + (element.__str__()) + '\n'
+        str_message += '\t],\n\tTransitions: [\n'
+        for transition in self.transitions.values():
+            str_message += '\t\t' + (transition.__str__()) + '\n'
+        str_message += '\t]\n}'
+        return str_message
 
     def dispose(self):
-        self.elements = []
+        self.trasitions = {}
+        self.elements = {}
         self.start_node = None
         self.name = ''
 
+    def set_transitions(self, transition):
+        self.transitions[transition.name] = transition
+
     def set_elements(self, element):
-        self.elements.append(element)
+        self.elements[element.name] = element
     
     def set_start_node(self, start_node):
         self.start_node = start_node
@@ -35,6 +45,9 @@ class ActivityDiagram():
 
     def get_elements(self):
         return self.elements
+
+    def get_transitions(self):
+        return self.transitions
 
     def get_start_node(self):
         return self.start_node

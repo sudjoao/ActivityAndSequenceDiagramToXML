@@ -11,7 +11,7 @@ class Util():
         self.FRAGMENT='Fragment'
 
     def check_start_node_existence(self, nodes):
-        for element in nodes:
+        for element in nodes.values():
             if(element.element_type == self.START_NODE):
                 return True
         return False
@@ -19,7 +19,7 @@ class Util():
     def check_join_possibility(self, nodes):
         decision_count = 0
         merge_count = 0
-        for element in nodes:
+        for element in nodes.values():
             if(element.element_type == self.DECISION_NODE):
                 decision_count+=1
             elif(element.element_type == self.MERGE_NODE):

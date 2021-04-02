@@ -19,15 +19,6 @@ class TestActivityDiagramElement(unittest.TestCase):
     def test_set_name(self, name):
         self.activity_diagram_element.set_name(name)
         self.assertEqual(self.activity_diagram_element.get_name(), name)
-    
-    @parameterized.expand([
-        [{'name':'Transição 1', 'prob':1.0}],
-        [{'name':'Transição 2', 'prob':0.5}],
-        [{'name':'Transição 3', 'prob':0.0}],
-    ])
-    def test_set_transitions(self, transition_dict):
-        self.activity_diagram_element.set_transitions(transition_dict)
-        self.assertListEqual(self.activity_diagram_element.get_transitions(), [transition_dict])
 
     @parameterized.expand([
         [util.START_NODE],

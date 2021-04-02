@@ -1,6 +1,6 @@
 from models.activity_diagram_element import ActivityDiagramElement
 
-class Activity(ActivityDiagramElement):
+class ActivityNode(ActivityDiagramElement):
     def __init__(self, name='', element_type=''):
         super().__init__(name, element_type)
 
@@ -9,4 +9,4 @@ class Activity(ActivityDiagramElement):
                 self.element_type == activity.element_type
 
     def __str__(self):
-        return 'Name: {}\nElement type: {}\n', self.name, self.element_type                
+        return r'{' + f'Name: {self.name}, Element type: {self.element_type}' + r'}'

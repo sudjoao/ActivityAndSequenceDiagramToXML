@@ -9,4 +9,4 @@ class DecisionNode(ActivityDiagramElement):
                 self.element_type == decision_node.element_type
 
     def __str__(self):
-        return 'Name: {}\nElement type: {}\n', self.name, self.element_type                
+        return r'{' + f'Name: {self.name}, Element type: {self.element_type}' + r'}'
