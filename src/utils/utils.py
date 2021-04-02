@@ -1,12 +1,12 @@
 class Util():
     def __init__(self):
-        self.START_NODE='Start Node'
-        self.ACTIVITY_NODE='Activity Node'
-        self.TRANSITION_NODE='Transition Node'
-        self.DECISION_NODE='Decision Node'
-        self.MERGE_NODE='Merge Node'
-        self.END_NODE='End Node'
-        self.LIFELINE='Life Line'
+        self.START_NODE='StartNode'
+        self.ACTIVITY_NODE='Activity'
+        self.TRANSITION_NODE='Transition'
+        self.DECISION_NODE='DecisionNode'
+        self.MERGE_NODE='MergeNode'
+        self.END_NODE='EndNode'
+        self.LIFELINE='LifeLine'
         self.MESSAGE='Message'
         self.FRAGMENT='Fragment'
 
@@ -28,3 +28,6 @@ class Util():
             return False
         
         return True
+    
+    def get_tab(self, size):
+        return '\t'.expandtabs(size)

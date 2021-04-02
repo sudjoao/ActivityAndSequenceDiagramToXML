@@ -1,4 +1,6 @@
 from models.activity_diagram_element import ActivityDiagramElement
+from utils.utils import Util
+util = Util()
 
 class ActivityDiagram():
     def __init__(self, start_node= None, name=''):
@@ -52,6 +54,16 @@ class ActivityDiagram():
     def get_start_node(self):
         return self.start_node
 
-    def to_xml():
-        return ''
+    def to_xml(self):
+        xml = f'<ActivityDiagram name="{self.name}">\n'
+        xml +=  util.get_tab(4)+ '<ActivityDiagramElements>\n'
+        for element in self.elements.values():
+            xml += util.get_tab(8) + element.to_xml() + '\n'
+        xml += util.get_tab(4) + '</ActivityDiagramElements>\n'
+        xml += util.get_tab(4) + '<ActivityDiagramTransitions>\n'
+        for transition in self.transitions.values():
+            xml += util.get_tab(8) + transition.to_xml() + '\n'
+        xml += util.get_tab(4) + '</ActivityDiagramTransitions>\n'
+        xml += '</ActivityDiagram>\n'
+        return xml
 
