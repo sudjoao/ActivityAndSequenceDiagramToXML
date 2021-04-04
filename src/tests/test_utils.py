@@ -2,6 +2,7 @@ import unittest
 from utils.utils import Util
 from models.activity_diagram_element import ActivityDiagramElement
 from parameterized import parameterized
+from errors.errors import OrderError, MissMergeError
 
 
 class TestMessage(unittest.TestCase):
@@ -17,8 +18,7 @@ class TestMessage(unittest.TestCase):
         [{'C1': ActivityDiagramElement(name='C1', element_type=Util().START_NODE)}],
     ])
     def test_check_start_node_existence_true(self, nodes):
-
-        response = self.util.check_start_node_existence(nodes)
+        response = self.util.check_start_node_existence(nodes, None)
         self.assertTrue(response)
     
     @parameterized.expand([
@@ -30,10 +30,9 @@ class TestMessage(unittest.TestCase):
         [{'C1': ActivityDiagramElement(name='C1', element_type=Util().ACTIVITY_NODE)}],
     ])
     def test_check_start_node_existence_false(self, nodes):
+        with self.assertRaises(OrderError):
+          response = self.util.check_start_node_existence(nodes, None)
 
-        response = self.util.check_start_node_existence(nodes)
-        self.assertFalse(response)
-    
     @parameterized.expand([
         [{'A1': ActivityDiagramElement(name='A1', element_type=Util().START_NODE), \
           'A2': ActivityDiagramElement(name='A2', element_type=Util().DECISION_NODE)}],
@@ -55,5 +54,6 @@ class TestMessage(unittest.TestCase):
         [{'C1': ActivityDiagramElement(name='C1', element_type=Util().START_NODE)}],
     ])
     def test_check_join_possibility_false(self, nodes):
-        response = self.util.check_join_possibility(nodes)
-        self.assertFalse(response)
+        with self.assertRaises(OrderError):
+          response = self.util.check_join_possibility(nodes)
+          

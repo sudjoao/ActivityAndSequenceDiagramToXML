@@ -41,7 +41,10 @@ class Transition(ActivityDiagramElement):
     def set_prob(self, prob):
         self.prob = prob
 
-      
+    
+    def to_xml(self):
+        return f'<{self.element_type} name="{self.name}" prob="{self.prob}"/>'
+
 
 
 

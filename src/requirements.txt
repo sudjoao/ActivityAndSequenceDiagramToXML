@@ -1,3 +1,2 @@
 parameterized
 coverage
-python-dotenv
