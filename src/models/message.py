@@ -34,13 +34,16 @@ class Message(SequenceDiagramElement):
         self.message_type = message_type
 
     def get_source(self):
-        return self.source 
+        return self.source
     
     def get_target(self):
-        return self.target 
+        return self.target
     
     def get_prob(self):
-        return self.prob 
+        return self.prob
 
     def get_message_type(self):
-        return self.message_type 
+        return self.message_type
+
+    def to_xml(self):
+        return f'<name="{self.name}" prob="{self.prob}" source="{self.source}" target="{self.target}"/>'

@@ -25,7 +25,7 @@ class Transition(ActivityDiagramElement):
 
     def get_source(self):
         return self.source
-    
+   
     def set_source(self, source):
         self.source = source
 
@@ -41,14 +41,5 @@ class Transition(ActivityDiagramElement):
     def set_prob(self, prob):
         self.prob = prob
 
-    
     def to_xml(self):
         return f'<{self.element_type} name="{self.name}" prob="{self.prob}"/>'
-
-
-
-
-
-  
-
-  

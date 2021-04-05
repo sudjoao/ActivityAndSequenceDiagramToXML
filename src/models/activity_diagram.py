@@ -66,4 +66,3 @@ class ActivityDiagram():
         xml += util.get_tab(4) + '</ActivityDiagramTransitions>\n'
         xml += '</ActivityDiagram>\n'
         return xml
-

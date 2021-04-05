@@ -1,6 +1,11 @@
 from models.activity_diagram import ActivityDiagram
+from models.activity_diagram import ActivityDiagram
+from models.sequence_diagram import SequenceDiagram
+from models.fragment import Fragment
 from models.activity_diagram_element import ActivityDiagramElement
 from models.transition import Transition
+from models.lifeline import Lifeline
+from models.message import Message
 from errors.errors import OrderError, MissMergeError
 from utils.utils import Util
 from time import sleep
@@ -26,7 +31,13 @@ def main():
         elif(user_in == '2'):
             print('----- Sequence Diagram -----')
             name = input('Insert the Sequence Diagram name: ')
-            sequence_diagram_menu()
+            print('Insert the guard condition:',
+                                    '\n 1 - True',
+                                    '\n 2 - False')
+            guard_condition = input()
+            guard_condition = True if guard_condition == 1 else False
+            sequence_diagram = SequenceDiagram(name=name, guard_condition=guard_condition)
+            sequence_diagram_menu(sequence_diagram)
             util.clear()
         elif(user_in == '3'):
             print('Leaving the program!')
@@ -34,7 +45,8 @@ def main():
         else:
             util.clear()
             print('Invalid input. Please select again\n')
-    
+
+
 def activity_diagram_menu(name):
     util.clear()
 
@@ -68,6 +80,7 @@ def activity_diagram_menu(name):
                 activity_node = ActivityDiagramElement(name=activity_node_name, element_type=util.ACTIVITY_NODE)
                 activity_diagram.set_elements(activity_node)
                 add_transition(activity_diagram, activity_node)
+                # sequence_diagram_menu()
             except OrderError as e:
                 util.print_and_clear(e)
 
@@ -91,7 +104,7 @@ def activity_diagram_menu(name):
                 add_transition(activity_diagram, merge_node)
             except OrderError as e:
                 util.print_and_clear(e)
-            
+           
         elif user_in == '5':
             try:
                 util.check_start_node_existence(activity_diagram.get_elements(), util.END_NODE)
@@ -111,7 +124,7 @@ def activity_diagram_menu(name):
                 return 0
             except Exception as e:
                 util.print_and_clear(e)
-        
+       
         elif user_in == '7':
             return 0
         
@@ -119,28 +132,33 @@ def activity_diagram_menu(name):
             util.clear()
             print('Invalid input. Please select again\n')
 
-def sequence_diagram_menu():
+
+def sequence_diagram_menu(sequence_diagram):
     util.clear()
+    lifelines = get_lifelines()
+    sequence_diagram.set_life_lines(lifelines)
     while True:
         print('----- Sequence Diagram Menu -----')
         print('Select the element you want to generate:\n'
-            f'1 - {util.LIFELINE}\n'
-            f'2 - {util.FRAGMENT}\n'
-            f'3 - {util.MESSAGE}\n'
-            '4 - Return to Main Menu')
+              f'1 - {util.MESSAGE}\n'
+              f'2 - {util.FRAGMENT}\n'
+              '3 - Generate Diagram\n'
+              '4 - Return to Main Menu')
         user_in = input('Insert your option: ')
-        
         if user_in == '1':
-            break
+            # sequence_diagram.messages.append(add_message(lifelines))
+            sequence_diagram.set_messages(add_message(lifelines))
+            
         elif user_in == '2':
-            break
+            # sequence_diagram.fragments.append(add_fragment())
+            sequence_diagram.set_fragments(add_fragment())
         elif user_in == '3':
-            break
-        elif user_in == '4':
-            return
+            util.generate_sequence_diagram(sequence_diagram)
+            return 0
         else:
             util.clear()
             print('Invalid input. Please select again\n')
+
 
 def add_transition(activity_diagram, source_element):
     elements = list(activity_diagram.elements.values())
@@ -178,5 +196,76 @@ def add_transition(activity_diagram, source_element):
                                                 target=None, 
                                                 element_type=util.TRANSITION_NODE))
 
-if __name__ == "__main__":
+
+def get_lifelines():
+    lifelines = {}
+    lifelines_amount = input('Insert the number of lifelines:')
+    for index, lifeline in enumerate(range(int(lifelines_amount))):
+        print(f'Insert the {index + 1} Lifeline name: ')
+        lifeline_name = input()
+        lifeline = Lifeline(id=index, name=lifeline_name)
+        lifelines[index] = lifeline
+        print()
+    return lifelines
+
+
+def add_fragment():
+    fragment_name = input('Insert the Fragment name: ')
+    diagram_name = input('Insert the Sequence Diagram name: ')
+    fragment = Fragment(name=fragment_name, represented_by=diagram_name)
+    return fragment
+
+
+def add_message(lifelines):
+    message_type_dict = {
+        1: 'Synchronous',
+        2: 'Assynchronous',
+        3: 'Reply'
+    }
+
+    message_name = input('Insert the Message name: ')
+    print(message_name)
+    while(len(message_name)==0):
+        print('MessageFormatException - You must define a message name')
+
+    print('Select the source Lifeline: ')
+    print_lifelines(lifelines)
+    print(lifelines)
+    try:
+
+        source_lifeline = lifelines[int(input('Which is the initial Lifeline?'))]
+    except:
+        print('MessageFormatException - Please select a valid Lifeline')
+        source_lifeline = lifelines[int(input('Which is the initial Lifeline?'))]
+
+    try:
+        target_lifeline = lifelines[int(input('Which is the final Lifeline?'))]
+    except:
+        print('MessageFormatException - Please select a valid Lifeline')
+        target_lifeline = lifelines[int(input('Which is the initial Lifeline?'))]
+
+    prob = input('How is the message probability?')
+    print_message_type()
+    message_type = message_type_dict[int(input())]
+
+    message = Message(name=message_name, source=source_lifeline,
+                      target=target_lifeline, prob=prob,
+                      message_type=message_type)
+    return message
+
+
+def print_lifelines(lifelines):
+    print('Your Lifelines: ')
+    for index, lifeline in lifelines.items():
+        print('Lifeline', str(index) + ':', lifeline.name)
+
+
+def print_message_type():
+    print('These are your message type options, please select one: ',
+          '\n 1 - Synchronous',
+          '\n 2 - Aynchronous',
+          '\n 3 - Reply')
+
+
+if __name__ == '__main__':
     main()

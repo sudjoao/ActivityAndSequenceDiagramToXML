@@ -1,4 +1,5 @@
 from models.sequence_diagram_element import SequenceDiagramElement
+
 class Lifeline(SequenceDiagramElement):
     def __init__(self, id=-1, name=''):
         super().__init__(name)

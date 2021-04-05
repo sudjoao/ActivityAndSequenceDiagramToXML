@@ -85,6 +85,13 @@ class Util():
         f.write(xml)
         f.close()
 
+    
+    def generate_sequence_diagram(self, sequence_diagram):
+        xml = sequence_diagram.to_xml()
+        f = open(f"docs/{sequence_diagram.name}.xml", "w+")
+        f.write(xml)
+        f.close()
+
 
     def get_tab(self, size):
         return '\t'.expandtabs(size)
