@@ -70,14 +70,24 @@ class SequenceDiagram():
             xml += util.get_tab(8) + f'<Lifeline name="{lifeline.name}">' + '\n'
         xml += util.get_tab(4) + '</Lifelines>\n'
         xml += util.get_tab(4) + '<Fragments>\n'
-        for fragment in self.fragments:
-            xml += util.get_tab(8) + f'<Optional name="{fragment.name}" representedBy="{fragment.represented_by}">\n'
+        xml += util.get_tab(8) + f'<Optional name="" representedBy="{self.name}">\n'
+        if(self.fragments):
+            for fragment in self.fragments:
+                xml += util.get_tab(8) + f'<Optional name="{fragment.name}" representedBy="{fragment.represented_by[0]}">\n'
         xml += util.get_tab(4) + '</Fragments>\n'
         xml += util.get_tab(4) + f'<SequenceDiagram name="{self.name}">\n'
         for message in self.messages.values():
             xml += util.get_tab(8) + f'<Message name="{message.name}" prob="{message.prob}" source="{message.source.name}" target="{message.target.name}">\n'
-        xml += util.get_tab(8) + f'<Fragment name="{fragment.name}">\n'
+        xml += util.get_tab(8) + f'<Fragment name="">\n'
         xml += util.get_tab(4) + '</SequenceDiagram>\n'
+        if(self.fragments):
+            for fragment in self.fragments:
+                fragment_sequence_diagram = fragment.represented_by[1]
+                xml += util.get_tab(4) + f'<SequenceDiagram name="{fragment_sequence_diagram.name}">\n'
+                for message in fragment_sequence_diagram.messages.values():
+                    xml += util.get_tab(8) + f'<Message name="{message.name}" prob="{message.prob}" source="{message.source.name}" target="{message.target.name}">\n'
+                xml += util.get_tab(8) + f'<Fragment name="{fragment_sequence_diagram.fragment.name}">\n'
+                xml += util.get_tab(4) + '</SequenceDiagram>\n'
         xml += '</SequenceDiagrams>\n'
 
         print(xml)

@@ -6,7 +6,7 @@ from models.activity_diagram_element import ActivityDiagramElement
 from models.transition import Transition
 from models.lifeline import Lifeline
 from models.message import Message
-from errors.errors import OrderError, MissMergeError
+from errors.errors import OrderError, MissMergeError, EmptyOptionalFragment, MessageFormatException
 from utils.utils import Util
 from time import sleep
 
@@ -27,17 +27,6 @@ def main():
             activity_diagram_menu(name)
             sleep(5)
             util.clear()
-        # elif(user_in == '2'):
-        #     print('----- Sequence Diagram -----')
-        #     name = input('Insert the Sequence Diagram name: ')
-        #     print('Insert the guard condition:',
-        #                             '\n 1 - True',
-        #                             '\n 2 - False')
-        #     guard_condition = input()
-        #     guard_condition = True if guard_condition == 1 else False
-        #     sequence_diagram = SequenceDiagram(name=name, guard_condition=guard_condition)
-        #     sequence_diagram_menu(sequence_diagram)
-        #     util.clear()
         elif(user_in == '2'):
             print('Leaving the program!')
             return 0
@@ -207,7 +196,17 @@ def get_lifelines():
 def add_fragment():
     fragment_name = input('Insert the Fragment name: ')
     diagram_name = input('Insert the Sequence Diagram name: ')
-    fragment = Fragment(name=fragment_name, represented_by=diagram_name)
+    while(True):
+        try:
+            fragment_sequence_diagram = create_sequence_diagram(diagram_name)
+            if fragment_sequence_diagram.name == '':
+                raise(EmptyOptionalFragment('You have to type a name'))
+            break
+        except EmptyOptionalFragment as e:
+            print(e)
+    represented_by = (diagram_name, fragment_sequence_diagram)
+    fragment = Fragment(name=fragment_name, represented_by=represented_by)
+
     return fragment
 
 
@@ -218,24 +217,32 @@ def add_message(lifelines):
         3: 'Reply'
     }
 
-    message_name = input('Insert the Message name: ')
-    while(len(message_name)==0):
-        print('MessageFormatException - You must define a message name')
+    while(True):
+        try:
+            message_name = input('Insert the Message name: ')        
+            if(len(message_name) == 0):
+                raise(MessageFormatException('You must define a message name'))
+            break
+        except MessageFormatException as e:
+            print(e)
 
     print('Select the source Lifeline: ')
     print_lifelines(lifelines)
-    try:
+    while(True):
+        try:
+            source_lifeline = lifelines[int(input('Which is the initial Lifeline?'))]
+            break
+        except ValueError:
+            print('MessageFormatException - Please select a valid Lifeline')
+            source_lifeline = lifelines[int(input('Which is the initial Lifeline?'))]
 
-        source_lifeline = lifelines[int(input('Which is the initial Lifeline?'))]
-    except:
-        print('MessageFormatException - Please select a valid Lifeline')
-        source_lifeline = lifelines[int(input('Which is the initial Lifeline?'))]
-
-    try:
-        target_lifeline = lifelines[int(input('Which is the final Lifeline?'))]
-    except:
-        print('MessageFormatException - Please select a valid Lifeline')
-        target_lifeline = lifelines[int(input('Which is the initial Lifeline?'))]
+    while(True):
+        try:
+            target_lifeline = lifelines[int(input('Which is the final Lifeline?'))]
+            break
+        except ValueError:
+            print('MessageFormatException - Please select a valid Lifeline')
+            target_lifeline = lifelines[int(input('Which is the initial Lifeline?'))]
 
     prob = input('How much is the message probability?')
     print_message_type()
@@ -259,9 +266,11 @@ def print_message_type():
           '\n 2 - Aynchronous',
           '\n 3 - Reply')
 
-def create_sequence_diagram():
+
+def create_sequence_diagram(name=''):
     print('----- Sequence Diagram -----')
-    name = input('Insert the Sequence Diagram name: ')
+    if name == '':
+        name = input('Insert the Sequence Diagram name: ')
     print('Insert the guard condition:',
                             '\n 1 - True',
                             '\n 2 - False')
