@@ -18,8 +18,7 @@ def main():
         print('----- Main Menu -----')
         print('Select the diagram you want to generate:\n'
             '1 - Activity Diagram\n'
-            '2 - Sequence Diagram\n'
-            '3 - Exit')
+            '2 - Exit')
         user_in = input('Insert your option: ')
         
         if(user_in == '1'):
@@ -28,18 +27,18 @@ def main():
             activity_diagram_menu(name)
             sleep(5)
             util.clear()
+        # elif(user_in == '2'):
+        #     print('----- Sequence Diagram -----')
+        #     name = input('Insert the Sequence Diagram name: ')
+        #     print('Insert the guard condition:',
+        #                             '\n 1 - True',
+        #                             '\n 2 - False')
+        #     guard_condition = input()
+        #     guard_condition = True if guard_condition == 1 else False
+        #     sequence_diagram = SequenceDiagram(name=name, guard_condition=guard_condition)
+        #     sequence_diagram_menu(sequence_diagram)
+        #     util.clear()
         elif(user_in == '2'):
-            print('----- Sequence Diagram -----')
-            name = input('Insert the Sequence Diagram name: ')
-            print('Insert the guard condition:',
-                                    '\n 1 - True',
-                                    '\n 2 - False')
-            guard_condition = input()
-            guard_condition = True if guard_condition == 1 else False
-            sequence_diagram = SequenceDiagram(name=name, guard_condition=guard_condition)
-            sequence_diagram_menu(sequence_diagram)
-            util.clear()
-        elif(user_in == '3'):
             print('Leaving the program!')
             return 0
         else:
@@ -49,7 +48,6 @@ def main():
 
 def activity_diagram_menu(name):
     util.clear()
-
     activity_diagram = ActivityDiagram(name=name)
     while(True):
         print('----- Activity Diagram Menu -----')
@@ -80,7 +78,9 @@ def activity_diagram_menu(name):
                 activity_node = ActivityDiagramElement(name=activity_node_name, element_type=util.ACTIVITY_NODE)
                 activity_diagram.set_elements(activity_node)
                 add_transition(activity_diagram, activity_node)
-                # sequence_diagram_menu()
+                sequence_diagram = create_sequence_diagram()
+                sequence_diagram = sequence_diagram_menu(sequence_diagram)
+                activity_diagram.set_sequence_diagrams(sequence_diagram)
             except OrderError as e:
                 util.print_and_clear(e)
 
@@ -142,19 +142,14 @@ def sequence_diagram_menu(sequence_diagram):
         print('Select the element you want to generate:\n'
               f'1 - {util.MESSAGE}\n'
               f'2 - {util.FRAGMENT}\n'
-              '3 - Generate Diagram\n'
-              '4 - Return to Main Menu')
+              '3 - Return to Main Menu')
         user_in = input('Insert your option: ')
         if user_in == '1':
-            # sequence_diagram.messages.append(add_message(lifelines))
             sequence_diagram.set_messages(add_message(lifelines))
-            
         elif user_in == '2':
-            # sequence_diagram.fragments.append(add_fragment())
             sequence_diagram.set_fragments(add_fragment())
         elif user_in == '3':
-            util.generate_sequence_diagram(sequence_diagram)
-            return 0
+            return sequence_diagram
         else:
             util.clear()
             print('Invalid input. Please select again\n')
@@ -224,13 +219,11 @@ def add_message(lifelines):
     }
 
     message_name = input('Insert the Message name: ')
-    print(message_name)
     while(len(message_name)==0):
         print('MessageFormatException - You must define a message name')
 
     print('Select the source Lifeline: ')
     print_lifelines(lifelines)
-    print(lifelines)
     try:
 
         source_lifeline = lifelines[int(input('Which is the initial Lifeline?'))]
@@ -266,6 +259,16 @@ def print_message_type():
           '\n 2 - Aynchronous',
           '\n 3 - Reply')
 
+def create_sequence_diagram():
+    print('----- Sequence Diagram -----')
+    name = input('Insert the Sequence Diagram name: ')
+    print('Insert the guard condition:',
+                            '\n 1 - True',
+                            '\n 2 - False')
+    guard_condition = input()
+    guard_condition = True if guard_condition == 1 else False
+    sequence_diagram = SequenceDiagram(name=name, guard_condition=guard_condition)
+    return sequence_diagram
 
 if __name__ == '__main__':
     main()

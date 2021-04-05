@@ -1,22 +1,24 @@
 from errors.errors import OrderError, MissMergeError
 from time import sleep
+
+
 class Util():
     def __init__(self):
-        self.START_NODE='StartNode'
-        self.ACTIVITY_NODE='Activity'
-        self.TRANSITION_NODE='Transition'
-        self.DECISION_NODE='DecisionNode'
-        self.MERGE_NODE='MergeNode'
-        self.END_NODE='EndNode'
-        self.LIFELINE='LifeLine'
-        self.MESSAGE='Message'
-        self.FRAGMENT='Fragment'
+        self.START_NODE = 'StartNode'
+        self.ACTIVITY_NODE = 'Activity'
+        self.TRANSITION_NODE = 'Transition'
+        self.DECISION_NODE = 'DecisionNode'
+        self.MERGE_NODE = 'MergeNode'
+        self.END_NODE = 'EndNode'
+        self.LIFELINE = 'LifeLine'
+        self.MESSAGE = 'Message'
+        self.FRAGMENT = 'Fragment'
 
     def check_start_node_existence(self, nodes, node_type):
         node_exist = False
         for element in nodes.values():
             if(element.element_type == self.START_NODE):
-                node_exist =  True
+                node_exist = True
                 break
         if(node_exist and node_type == self.START_NODE):
             raise OrderError('Start node already exits')
@@ -73,7 +75,7 @@ class Util():
         print(message)
         print('-'*64)
         sleep(2)
-    
+   
     def generate_diagram(self, activity_diagram):
         try:
             self.check_start_node_existence(activity_diagram.get_elements(), None)
@@ -84,14 +86,6 @@ class Util():
         f = open(f"docs/{activity_diagram.name}.xml", "w+")
         f.write(xml)
         f.close()
-
-    
-    def generate_sequence_diagram(self, sequence_diagram):
-        xml = sequence_diagram.to_xml()
-        f = open(f"docs/{sequence_diagram.name}.xml", "w+")
-        f.write(xml)
-        f.close()
-
 
     def get_tab(self, size):
         return '\t'.expandtabs(size)
