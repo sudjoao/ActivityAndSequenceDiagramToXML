@@ -46,4 +46,4 @@ class Message(SequenceDiagramElement):
         return self.message_type
 
     def to_xml(self):
-        return f'<name="{self.name}" prob="{self.prob}" source="{self.source}" target="{self.target}"/>'
+        return ""

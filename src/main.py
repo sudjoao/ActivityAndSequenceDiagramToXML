@@ -237,7 +237,7 @@ def add_message(lifelines):
         print('MessageFormatException - Please select a valid Lifeline')
         target_lifeline = lifelines[int(input('Which is the initial Lifeline?'))]
 
-    prob = input('How is the message probability?')
+    prob = input('How much is the message probability?')
     print_message_type()
     message_type = message_type_dict[int(input())]
 
